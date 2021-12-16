@@ -1,0 +1,23 @@
+# bash-git-prompt
+if [ ! -d ~/.bash-git-prompt ]; then
+	git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+fi
+
+# nvm
+if [ ! -d "$NVMDIR" ]; then
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+fi
+
+# pyenv
+if [ ! -d "$PYENV_ROOT" ]; then
+	git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
+	mkdir -p ~/.local/bin
+	ln -s "$PYENV_ROOT/bin/pyenv" ~/.local/bin/pyenv
+fi
+
+if [ ! -d "$PYENV_ROOT/plugins/pyenv-virtualenv" ]; then
+	git clone https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
+fi
+
+# clear the screen for convenience
+clear

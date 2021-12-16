@@ -1,0 +1,53 @@
+" load default settings
+source $VIMRUNTIME/defaults.vim
+
+" install vim-plug if not found
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" plugins
+call plug#begin()
+Plug 'drmikehenry/vim-headerguard'
+Plug '42Paris/42header'
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --verbose' }
+call plug#end()
+
+" Let clangd fully control code completion
+let g:ycm_clangd_uses_ycmd_caching = 0
+" trigger documentation popup manually Ctrl+h
+nmap <C-h> <plug>(YCMHover)
+" shortcut for ycm 'goto' command Ctrl+g
+nnoremap <C-g> :YcmCompleter GoTo<CR>
+
+" override vim-headerguard functions to indent #define preprocessor directive
+function!	g:HeaderguardName()
+    return toupper(expand('%:t:gs/[^0-9a-zA-Z_]/_/g'))
+endfunction
+function!	g:HeaderguardLine2()
+  return "# define " . g:HeaderguardName()
+endfunction
+
+" setup my 42header with my 42 school info
+let g:user42 = 'syakoubi'
+let g:mail42 = 'syakoubi@student.1337.ma'
+
+" disable preview window when auto completing
+set completeopt-=preview
+
+" show line number before each line
+set number
+
+" next buffer F12
+nnoremap <F12> :bn<CR>
+" previous buffer Shift+F12
+nnoremap <S-F12> :bp<CR>
+
+" set tab size to 4
+set tabstop=4
+set shiftwidth=4
+
+" allow hidden buffers
+set hidden

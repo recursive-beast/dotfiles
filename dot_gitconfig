@@ -1,0 +1,8 @@
+[user]
+	email = splentercell.1997@gmail.com
+	name = recursive-beast
+[core]
+	autocrlf = input
+	longpaths = true
+[tag]
+	forceSignAnnotated = true
