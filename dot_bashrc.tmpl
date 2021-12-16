@@ -133,3 +133,13 @@ fi
 if command -v chezmoi &>/dev/null; then
 	eval "$(chezmoi completion bash)"
 fi
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# setup shell environment for brew
+if command -v brew &>/dev/null; then
+	eval "$(brew shellenv)"
+	chmod -R go-w "$(brew --prefix)/share/zsh"
+fi
+
+{{- end }}
