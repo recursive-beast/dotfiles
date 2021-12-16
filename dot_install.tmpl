@@ -11,13 +11,19 @@ fi
 # pyenv
 if [ ! -d "$PYENV_ROOT" ]; then
 	git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
-	mkdir -p ~/.local/bin
+	git clone https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
 	ln -s "$PYENV_ROOT/bin/pyenv" ~/.local/bin/pyenv
 fi
 
-if [ ! -d "$PYENV_ROOT/plugins/pyenv-virtualenv" ]; then
-	git clone https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
+{{- if eq .chezmoi.os "darwin" }}
+
+# homebrew
+if [ ! -d ~/.homebrew ]; then
+	git clone https://github.com/Homebrew/brew ~/.homebrew
+	ln -s ~/.homebrew/bin/brew ~/.local/bin/brew
 fi
+
+{{- end }}
 
 # clear the screen for convenience
 clear
