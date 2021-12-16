@@ -23,3 +23,5 @@ alias clipboard="xclip -selection clip"
 
 alias clr="clear"
 alias cls="clear"
+
+alias chezmoi-edit="chezmoi edit --apply"
