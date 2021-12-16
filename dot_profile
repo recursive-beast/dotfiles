@@ -8,8 +8,10 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# create user's private bin
+mkdir -p ~/.local/bin
+
 # set PATH so it includes user's private bin
-PATH="$PATH:$HOME/bin"
 PATH="$PATH:$HOME/.local/bin"
 
 # if running bash
