@@ -10,6 +10,7 @@ endif
 
 " plugins
 call plug#begin()
+Plug 'editorconfig/editorconfig-vim'
 Plug 'drmikehenry/vim-headerguard'
 Plug '42Paris/42header'
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --verbose' }
@@ -44,10 +45,6 @@ set number
 nnoremap <F12> :bn<CR>
 " previous buffer Shift+F12
 nnoremap <S-F12> :bp<CR>
-
-" set tab size to 4
-set tabstop=4
-set shiftwidth=4
 
 " allow hidden buffers
 set hidden
