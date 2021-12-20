@@ -10,6 +10,7 @@ endif
 
 " plugins
 call plug#begin()
+Plug 'alker0/chezmoi.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'drmikehenry/vim-headerguard'
 Plug '42Paris/42header'
@@ -24,14 +25,14 @@ nmap <C-h> <plug>(YCMHover)
 nnoremap <C-g> :YcmCompleter GoTo<CR>
 
 " override vim-headerguard functions to indent #define preprocessor directive
-function!	g:HeaderguardName()
+function! g:HeaderguardName()
     return toupper(expand('%:t:gs/[^0-9a-zA-Z_]/_/g'))
 endfunction
-function!	g:HeaderguardLine2()
+function! g:HeaderguardLine2()
   return "# define " . g:HeaderguardName()
 endfunction
 
-" setup my 42header with my 42 school info
+" setup 42header with my 42 school info
 let g:user42 = 'syakoubi'
 let g:mail42 = 'syakoubi@student.1337.ma'
 

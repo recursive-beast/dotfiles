@@ -1,13 +1,3 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
-
-# If not running interactively, don't do anything
-case $- in
-	*i*) ;;
-	*) return;;
-esac
-
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -25,7 +15,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -77,9 +67,6 @@ if [ -x /usr/bin/dircolors ]; then
 	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -91,55 +78,17 @@ if ! shopt -oq posix; then
 	fi
 fi
 
+# create user's private bin
+mkdir -p ~/.local/bin
+# set PATH so it includes user's private bin
+export PATH="$PATH:$HOME/.local/bin"
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 export EDITOR=$(which vim)
 export MAIL=splentercell.1997@gmail.com
-export NVMDIR="$HOME/.nvm"
-export PYENV_ROOT="$HOME/.pyenv"
 
-# Alias definitions.
-if [ -f ~/.bash_aliases ]; then
-	source ~/.bash_aliases
-fi
-
-# setup bash completion for chezmoi
+# setup bash completion for chezmoi.
 if command -v chezmoi &>/dev/null; then
 	eval "$(chezmoi completion bash)"
 fi
-
-# Installation of any needed packages.
-if [ -f ~/.install ]; then
-	source ~/.install
-fi
-
-# setup shell environment for nvm
-[ -s "$NVMDIR/nvm.sh" ] && source "$NVMDIR/nvm.sh"
-[ -s "$NVMDIR/bash_completion" ] && source "$NVMDIR/bash_completion"
-
-# setup shell environment for pyenv
-if command -v pyenv &>/dev/null; then
-	eval "$(pyenv init --path)"
-	eval "$(pyenv init -)"
-	eval "$(pyenv virtualenv-init -)"
-fi
-
-# add the path for composer binaries to PATH
-if command -v composer &>/dev/null; then
-	export PATH="$PATH:$(composer global config bin-dir --absolute --quiet)"
-fi
-
-# setup bash-git-prompt
-if [ -f ~/.bash-git-prompt/gitprompt.sh ]; then
-	GIT_PROMPT_ONLY_IN_REPO=0
-	GIT_PROMPT_THEME=Custom
-	source ~/.bash-git-prompt/gitprompt.sh
-fi
-
-{{- if eq .chezmoi.os "darwin" }}
-
-# setup shell environment for brew
-if command -v brew &>/dev/null; then
-	eval "$(brew shellenv)"
-	chmod -R go-w "$(brew --prefix)/share/zsh"
-fi
-
-{{- end }}

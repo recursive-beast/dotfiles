@@ -1,0 +1,29 @@
+{{- if eq .chezmoi.os "darwin" -}}
+alias ls='ls -G'
+alias monitor-off='pmset displaysleepnow'
+alias clipin='pbcopy'
+alias clipout='pbpaste'
+{{- end }}
+
+{{- if eq .chezmoi.os "linux" -}}
+alias ls='ls --color=auto'
+alias monitor-off='xset dpms force off'
+alias clipin='xclip -selection clip'
+alias clipout='xclip -selection clip -o'
+{{- end }}
+
+alias ll='ls -alF'
+alias la='ls -A'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias gs='git status'
+alias gl='git log --all --decorate --oneline --graph'
+
+alias clr='clear'
+alias cls='clear'
+
+alias chezmoi-edit='chezmoi edit --apply'
+alias echoPATH="echo \$PATH | tr ':' '\n'"
