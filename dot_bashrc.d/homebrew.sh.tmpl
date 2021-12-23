@@ -2,11 +2,9 @@
 
 if [ ! -d ~/.homebrew ]; then
 	git clone https://github.com/Homebrew/brew ~/.homebrew || BASHRC_SHOULD_CLEAR=false
-else
-	export PATH="$PATH:$HOME/.homebrew/bin"
 fi
 
-eval "$(brew shellenv)"
+eval "$(~/.homebrew/bin/brew shellenv)"
 brew update --force --quiet
 chmod -R go-w "$(brew --prefix)/share/zsh"
 
