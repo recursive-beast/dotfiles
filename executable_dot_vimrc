@@ -1,30 +1,49 @@
-" load default settings
+" Load default settings.
 source $VIMRUNTIME/defaults.vim
 
-" install vim-plug if not found
+" Install vim-plug if not found.
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" plugins
+" Plugins.
 call plug#begin()
 Plug 'alker0/chezmoi.vim'
+Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'drmikehenry/vim-headerguard'
 Plug '42Paris/42header'
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --verbose' }
+Plug 'cespare/vim-toml'
 call plug#end()
 
-" Let clangd fully control code completion
-let g:ycm_clangd_uses_ycmd_caching = 0
-" trigger documentation popup manually Ctrl+h
-nmap <C-h> <plug>(YCMHover)
-" shortcut for ycm 'goto' command Ctrl+g
-nnoremap <C-g> :YcmCompleter GoTo<CR>
+" ----------- vim settings -----------
+" Enable filetype plugins,
+" As nerdcommenter makes use of |commentstring| where possible
+" (which is usually set in a filetype plugin).
+filetype plugin on
+" Disable preview window when auto completing.
+set completeopt-=preview
+" Show line number before each line.
+set number
+" Allow hidden buffers.
+set hidden
 
-" override vim-headerguard functions to indent #define preprocessor directive
+" ----------- plugin settings -----------
+" Allow commenting and inverting empty lines.
+let g:NERDCommentEmptyLines = 1
+" Add spaces after comment delimiters by default.
+let g:NERDSpaceDelims = 1
+" Add your own custom formats or override the defaults.
+let g:NERDCustomDelimiters = {'c': { 'left': '//', 'right': '' }}
+" Align line-wise comment delimiters flush left instead of following code indentation.
+let g:NERDDefaultAlign = 'left'
+" Let clangd fully control code completion.
+let g:ycm_clangd_uses_ycmd_caching = 0
+
+" Override vim-headerguard functions to indent #define directives.
 function! g:HeaderguardName()
     return toupper(expand('%:t:gs/[^0-9a-zA-Z_]/_/g'))
 endfunction
@@ -32,20 +51,19 @@ function! g:HeaderguardLine2()
   return "# define " . g:HeaderguardName()
 endfunction
 
-" setup 42header with my 42 school info
+" Setup 42header with my 42 school info.
 let g:user42 = 'syakoubi'
 let g:mail42 = 'syakoubi@student.1337.ma'
 
-" disable preview window when auto completing
-set completeopt-=preview
-
-" show line number before each line
-set number
-
-" next buffer F12
+" ----------- mappings -----------
+" Next buffer.
 nnoremap <F12> :bn<CR>
-" previous buffer Shift+F12
+" Previous buffer.
 nnoremap <S-F12> :bp<CR>
-
-" allow hidden buffers
-set hidden
+" Toggles the comment state of the selected line(s).
+nmap <F9> <leader>c<space>
+vmap <F9> <leader>c<space>
+" Trigger YCM documentation popup.
+nmap <C-h> <plug>(YCMHover)
+" YCM 'goto'.
+nnoremap <C-g> :YcmCompleter GoTo<CR>

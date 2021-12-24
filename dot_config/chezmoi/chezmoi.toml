@@ -1,2 +1,5 @@
+verbose = true
 [edit]
 	hardlink = false
+[cd]
+	command = "/bin/bash"
