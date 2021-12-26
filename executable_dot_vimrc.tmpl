@@ -14,7 +14,9 @@ Plug 'alker0/chezmoi.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'drmikehenry/vim-headerguard'
+{{- if not (eq .chezmoi.os "darwin") }}
 Plug '42Paris/42header'
+{{- end }}
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --verbose' }
 Plug 'cespare/vim-toml'
 call plug#end()
@@ -51,9 +53,10 @@ function! g:HeaderguardLine2()
   return "# define " . g:HeaderguardName()
 endfunction
 
-" Setup 42header with my 42 school info.
+{{- if not (eq .chezmoi.os "darwin") }}
+" Setup 42header with my 42 school login.
 let g:user42 = 'syakoubi'
-let g:mail42 = 'syakoubi@student.1337.ma'
+{{- end }}
 
 " ----------- mappings -----------
 " Next buffer.
