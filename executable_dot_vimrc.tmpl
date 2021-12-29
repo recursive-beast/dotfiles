@@ -17,6 +17,7 @@ Plug 'drmikehenry/vim-headerguard'
 {{- if not (eq .chezmoi.os "darwin") }}
 Plug '42Paris/42header'
 {{- end }}
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --verbose' }
 Plug 'cespare/vim-toml'
 call plug#end()
 
