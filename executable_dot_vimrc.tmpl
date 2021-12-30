@@ -44,6 +44,8 @@ let g:NERDCustomDelimiters = {'c': { 'left': '//', 'right': '' }}
 let g:NERDDefaultAlign = 'left'
 " Let clangd fully control code completion.
 let g:ycm_clangd_uses_ycmd_caching = 0
+" Don't display hover popup automatically.
+let g:ycm_auto_hover=''
 
 " Override vim-headerguard functions to indent #define directives.
 function! g:HeaderguardName()
