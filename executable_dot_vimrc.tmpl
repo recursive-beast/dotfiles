@@ -73,5 +73,7 @@ vmap <F9> <leader>c<space>
 nmap <C-h> <plug>(YCMHover)
 " YCM 'goto'.
 nnoremap <C-g> :YcmCompleter GoTo<CR>
+" Rename symbol
+nnoremap <F2> :YcmCompleter RefactorRename<space>
 " Yank rest of the line.
 map Y y$
