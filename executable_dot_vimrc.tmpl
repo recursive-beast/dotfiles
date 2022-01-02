@@ -16,8 +16,10 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'drmikehenry/vim-headerguard'
 {{- if not (eq .chezmoi.os "darwin") }}
 Plug '42Paris/42header'
-{{- end }}
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --verbose' }
+{{- else }}
+Plug 'ycm-core/YouCompleteMe', { 'do': 'LDFLAGS=\"-L$(brew --prefix)/opt/llvm/lib -Wl,-rpath,$(brew --prefix)/opt/llvm/lib\" CC=clang CXX=clang++ ./install.py --clangd-completer --verbose' }
+{{- end }}
 Plug 'cespare/vim-toml'
 Plug 'jiangmiao/auto-pairs'
 call plug#end()
