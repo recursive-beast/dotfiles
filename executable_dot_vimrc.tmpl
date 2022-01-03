@@ -14,8 +14,8 @@ Plug 'alker0/chezmoi.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'drmikehenry/vim-headerguard'
-{{- if not (eq .chezmoi.os "darwin") }}
 Plug '42Paris/42header'
+{{- if not (eq .chezmoi.os "darwin") }}
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --verbose' }
 {{- else }}
 Plug 'ycm-core/YouCompleteMe', { 'do': 'LDFLAGS=\"-L$(brew --prefix)/opt/llvm/lib -Wl,-rpath,$(brew --prefix)/opt/llvm/lib\" CC=clang CXX=clang++ ./install.py --clangd-completer --verbose' }
@@ -58,10 +58,8 @@ function! g:HeaderguardLine2()
   return "# define " . g:HeaderguardName()
 endfunction
 
-{{- if not (eq .chezmoi.os "darwin") }}
 " Setup 42header with my 42 school login.
 let g:user42 = 'syakoubi'
-{{- end }}
 
 " ----------- mappings -----------
 " Next buffer.
