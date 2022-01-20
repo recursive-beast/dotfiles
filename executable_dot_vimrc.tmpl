@@ -51,6 +51,10 @@ let g:ycm_clangd_uses_ycmd_caching = 0
 let g:ycm_auto_hover=''
 " Show the completion menu even when typing inside comments.
 let g:ycm_complete_in_comments = 1
+let g:ycm_semantic_triggers =  {
+\	'c': ['re!\w{3}'],
+\	'javascript,typescript': ['re!\w{3}'],
+\}
 
 " Override vim-headerguard functions to indent #define directives.
 function! g:HeaderguardName()
