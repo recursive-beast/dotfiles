@@ -15,10 +15,10 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'drmikehenry/vim-headerguard'
 Plug '42Paris/42header'
-{{- if not (eq .chezmoi.os "darwin") }}
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --ts-completer --verbose' }
-{{- else }}
+{{- if eq .chezmoi.os "darwin" }}
 Plug 'ycm-core/YouCompleteMe', { 'do': 'LDFLAGS=\"-L$(brew --prefix)/opt/llvm/lib -Wl,-rpath,$(brew --prefix)/opt/llvm/lib\" CC=clang CXX=clang++ ./install.py --ts-completer --clangd-completer --verbose' }
+{{- else }}
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer --ts-completer --verbose' }
 {{- end }}
 Plug 'cespare/vim-toml'
 Plug 'jiangmiao/auto-pairs'
