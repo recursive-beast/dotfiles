@@ -10,10 +10,13 @@ esac
 
 BASHRC_SHOULD_CLEAR=true
 
-# source bashrc modules (ordered alphabetically)
-for f in ~/.bashrc.d/*; do
-	source $f
-done
+# source bashrc modules
+source ~/.bashrc.d/_init.sh
+source ~/.bashrc.d/aliases.sh
+source ~/.bashrc.d/bash-git-prompt.sh
+source ~/.bashrc.d/pyenv.sh
+source ~/.bashrc.d/nvm.sh
+source ~/.bashrc.d/composer.sh
 
 [ $BASHRC_SHOULD_CLEAR = true ] && clear
 
