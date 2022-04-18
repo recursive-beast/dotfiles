@@ -50,6 +50,10 @@ let g:NERDDefaultAlign = 'left'
 let g:ycm_auto_hover=''
 " Show the completion menu even when typing inside comments.
 let g:ycm_complete_in_comments = 1
+" don't use tab for completion navigation.
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
+
 let g:ycm_semantic_triggers =  {
 \	'c': ['re!\w{3}'],
 \	'javascript,typescript': ['re!\w{3}'],
