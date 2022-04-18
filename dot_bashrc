@@ -14,6 +14,7 @@ BASHRC_SHOULD_CLEAR=true
 source ~/.bashrc.d/_init.sh
 source ~/.bashrc.d/aliases.sh
 source ~/.bashrc.d/bash-git-prompt.sh
+source ~/.bashrc.d/homebrew.sh
 source ~/.bashrc.d/pyenv.sh
 source ~/.bashrc.d/nvm.sh
 source ~/.bashrc.d/composer.sh
