@@ -67,6 +67,14 @@ if [ -x /usr/bin/dircolors ]; then
 	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
+{{ if eq .chezmoi.os "darwin" -}}
+# enable programmable completion features.
+if [ -r "$HOME/.homebrew/etc/profile.d/bash_completion.sh" ]; then
+	source "$HOME/.homebrew/etc/profile.d/bash_completion.sh"
+fi
+{{- end }}
+
+{{ if eq .chezmoi.os "linux" -}}
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -77,6 +85,7 @@ if ! shopt -oq posix; then
 		. /etc/bash_completion
 	fi
 fi
+{{- end }}
 
 # create user's private bin
 mkdir -p ~/.local/bin
