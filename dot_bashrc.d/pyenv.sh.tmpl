@@ -1,0 +1,13 @@
+{{- if eq .chezmoi.os "linux" -}}
+if [ ! -d "$HOME/.pyenv" ]; then
+	git clone https://github.com/pyenv/pyenv.git "$HOME/.pyenv" || BASHRC_SHOULD_CLEAR=false
+	git clone https://github.com/pyenv/pyenv-virtualenv.git "$HOME/.pyenv/plugins/pyenv-virtualenv" || BASHRC_SHOULD_CLEAR=false
+	ln -fs "$HOME/.pyenv/bin/pyenv" ~/.local/bin/pyenv
+fi
+{{- end }}
+
+if command -v pyenv &>/dev/null; then
+	eval "$(pyenv init --path)"
+	eval "$(pyenv init -)"
+	eval "$(pyenv virtualenv-init -)"
+fi
