@@ -1,3 +1,13 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+	*i*) ;;
+	*) return;;
+esac
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -87,17 +97,47 @@ if ! shopt -oq posix; then
 fi
 {{- end }}
 
+if [ -f ~/.bash_aliases ]; then
+source ~/.bash_aliases
+fi
+
 # create user's private bin
 mkdir -p ~/.local/bin
 # set PATH so it includes user's private bin
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 export EDITOR=vim
 export MAIL=splentercell.1997@gmail.com
 
+# bash-git-prompt
+if [ -d ~/.bash-git-prompt ]; then
+	GIT_PROMPT_ONLY_IN_REPO=0
+	GIT_PROMPT_THEME=Custom
+	source ~/.bash-git-prompt/gitprompt.sh
+fi
+
 # setup bash completion for chezmoi.
 if command -v chezmoi &>/dev/null; then
 	eval "$(chezmoi completion bash)"
 fi
+
+{{ if eq .chezmoi.os "darwin" -}}
+# setup shell environment for brew
+if [ -f ~/.homebrew/bin/brew ]; then
+	eval "$(~/.homebrew/bin/brew shellenv)"
+fi
+{{- end }}
+
+# setup shell environment and auto-completion for pyenv
+if command -v pyenv &>/dev/null; then
+	eval "$(pyenv init --path)"
+	eval "$(pyenv init -)"
+	eval "$(pyenv virtualenv-init -)"
+fi
+
+# setup shell environment and auto-completion for nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"

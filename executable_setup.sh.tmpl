@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ ! -d ~/.bash-git-prompt ]; then
+	echo "bash-git-prompt ------------------------------"
+	git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+	echo
+fi
+
+echo "composer ------------------------------"
+if { command -v php && ! command -v composer; } &>/dev/null; then
+	curl -sS https://getcomposer.org/installer | php
+	mv composer.phar ~/.local/bin/composer
+fi
+composer config -v -g bin-dir ~/.local/bin
+echo
+
+{{ if eq .chezmoi.os "darwin" -}}
+echo "brew ------------------------------"
+if ! command -v brew &>/dev/null; then
+	git clone https://github.com/Homebrew/brew ~/.homebrew
+fi
+eval "$(~/.homebrew/bin/brew shellenv)"
+brew update --force --quiet
+brew install -v openssl
+brew install -v curl
+brew install -v bash-completion
+echo
+{{- end }}
+
+{{ if eq .chezmoi.os "linux" -}}
+echo "apt ------------------------------"
+apt update
+apt install bash-completion
+echo
+{{- end }}
+
+echo "nvm ------------------------------"
+if [ ! -d "$NVM_DIR" ]; then
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+fi
+source "$NVM_DIR/nvm.sh"
+nvm install --lts
+echo
+
+echo "pyenv ------------------------------"
+{{ if eq .chezmoi.os "linux" -}}
+if ! command -v pyenv &>/dev/null; then
+	git clone https://github.com/pyenv/pyenv.git "$HOME/.pyenv"
+	git clone https://github.com/pyenv/pyenv-virtualenv.git "$HOME/.pyenv/plugins/pyenv-virtualenv"
+	ln -fs "$HOME/.pyenv/bin/pyenv" ~/.local/bin/pyenv
+fi
+{{- end }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+brew install -v pyenv pyenv-virtualenv
+{{- end }}
+echo
+
+echo "python 3.10.4 enable-framework ------------------------------"
+export PYTHON_CONFIGURE_OPTS="--enable-framework"
+pyenv install -v --skip-existing 3.10.3
+pyenv global 3.10.3
+unset PYTHON_CONFIGURE_OPTS
+echo
+
+echo "vim ------------------------------"
+{{ if eq .chezmoi.os "darwin" -}}
+brew install -v cmake llvm macvim
+brew link -vf llvm
+{{- end }}
+vim  +PlugInstall +qa
+echo
