@@ -10,6 +10,8 @@ endif
 
 " Plugins.
 call plug#begin()
+Plug 'honza/vim-snippets'
+Plug 'sirver/ultisnips'
 Plug 'alker0/chezmoi.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
@@ -38,6 +40,10 @@ set hidden
 set cpoptions+=y
 
 " ----------- plugin settings -----------
+" Set ultisnips triggers
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " Allow commenting and inverting empty lines.
 let g:NERDCommentEmptyLines = 1
 " Add spaces after comment delimiters by default.
