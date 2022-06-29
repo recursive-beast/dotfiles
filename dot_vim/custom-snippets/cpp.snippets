@@ -1,0 +1,16 @@
+extends cpp
+
+##
+## Class
+# class
+snippet clcanon "class, canonical form"
+class ${1:`!p snip.rv = snip.basename`} {
+	private:
+		${2}
+	public:
+		$1(${3});
+		~$1();
+		$1 (const $1 &${4:copy});
+		$1 & operator = (const $1 &$4);
+};
+endsnippet
