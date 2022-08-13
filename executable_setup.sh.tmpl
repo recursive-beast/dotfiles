@@ -2,20 +2,6 @@
 
 set -e
 
-if [ ! -d ~/.bash-git-prompt ]; then
-	echo "bash-git-prompt ------------------------------"
-	git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
-	echo
-fi
-
-echo "composer ------------------------------"
-if { command -v php && ! command -v composer; } &>/dev/null; then
-	curl -sS https://getcomposer.org/installer | php
-	mv composer.phar ~/.local/bin/composer
-fi
-composer config -v -g bin-dir ~/.local/bin
-echo
-
 {{ if eq .chezmoi.os "darwin" -}}
 echo "brew ------------------------------"
 if ! command -v brew &>/dev/null; then
@@ -23,18 +9,29 @@ if ! command -v brew &>/dev/null; then
 fi
 eval "$(~/.homebrew/bin/brew shellenv)"
 brew update --force --quiet
-brew install -v openssl
-brew install -v curl
-brew install -v bash-completion
+brew install -v openssl curl bash-completion
+echo
+{{- end }}
+{{ if eq .chezmoi.os "linux" -}}
+echo "apt ------------------------------"
+sudo apt update -y
+sudo apt install -y bash-completion
 echo
 {{- end }}
 
-{{ if eq .chezmoi.os "linux" -}}
-echo "apt ------------------------------"
-apt update
-apt install bash-completion
+if [ ! -d ~/.bash-git-prompt ]; then
+	echo "bash-git-prompt ------------------------------"
+	git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+	echo
+fi
+
+if { command -v php && ! command -v composer; } &>/dev/null; then
+	echo "composer ------------------------------"
+	curl -sS https://getcomposer.org/installer | php
+	mv composer.phar ~/.local/bin/composer
+	composer config -v -g bin-dir ~/.local/bin
+fi
 echo
-{{- end }}
 
 echo "nvm ------------------------------"
 if [ ! -d "$NVM_DIR" ]; then
@@ -52,23 +49,34 @@ if ! command -v pyenv &>/dev/null; then
 	ln -fs "$HOME/.pyenv/bin/pyenv" ~/.local/bin/pyenv
 fi
 {{- end }}
-
 {{ if eq .chezmoi.os "darwin" -}}
 brew install -v pyenv pyenv-virtualenv
 {{- end }}
+eval "$(pyenv init -)"
 echo
 
-echo "python 3.10.4 enable-framework ------------------------------"
-export PYTHON_CONFIGURE_OPTS="--enable-framework"
+echo "python 3.10.3 enable-shared ------------------------------"
+export PYTHON_CONFIGURE_OPTS="--enable-shared"
+{{ if eq .chezmoi.os "linux" -}}
+sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+{{- end }}
+{{ if eq .chezmoi.os "darwin" -}}
+brew install openssl readline sqlite3 xz zlib tcl-tk
+{{- end }}
+
 pyenv install -v --skip-existing 3.10.3
 pyenv global 3.10.3
 unset PYTHON_CONFIGURE_OPTS
 echo
 
 echo "vim ------------------------------"
+{{ if eq .chezmoi.os "linux" -}}
+sudo apt install -y vim-nox cmake
+{{- end }}
 {{ if eq .chezmoi.os "darwin" -}}
 brew install -v cmake llvm macvim
 brew link -vf llvm
 {{- end }}
+
 vim  +PlugInstall +qa
 echo
